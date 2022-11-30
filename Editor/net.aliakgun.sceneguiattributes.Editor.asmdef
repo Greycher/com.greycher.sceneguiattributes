@@ -1,0 +1,16 @@
+{
+    "name": "net.aliakgun.sceneguiattributes.Editor",
+    "rootNamespace": "",
+    "references": [
+        "net.aliakgun.sceneguiattributes"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

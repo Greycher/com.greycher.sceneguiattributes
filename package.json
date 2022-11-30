@@ -1,0 +1,16 @@
+{
+  "name": "net.aliakgun.sceneguiattributes",
+  "version": "0.0.1",
+  "displayName": "Scene GUI Attr",
+  "description": "An extension enables attributes that works during scene gui.",
+ "keywords": [
+    "sceneguiattributes",
+    "gui",
+    "attribute"
+  ],
+  "author": {
+    "name": "Ali Akgun",
+    "email": "akgun.talip.ali@gmail.com",
+    "url": "aliakgun.net"
+  }
+}

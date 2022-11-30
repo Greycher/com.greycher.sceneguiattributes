@@ -1,1 +1,1 @@
-# net.aliakgun.sceneguiattributes
+An extension enables attributes that works during scene gui.
