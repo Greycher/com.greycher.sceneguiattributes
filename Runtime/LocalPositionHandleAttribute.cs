@@ -1,19 +1,28 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 namespace SceneGUIAttributes.Runtime
 {
-    public class LocalPositionHandleAttribute : PositionHandleAttribute
+    public class LocalPositionHandleAttribute : SceneGuiAttributeWithOptinalLabel
     {
         public override void DuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
         {
-            var oldMatrix = Handles.matrix;
-            Handles.matrix = monoBehaviour.transform.localToWorldMatrix;
+            if (fieldInfo.FieldType != typeof(Vector3))
             {
-                base.DuringSceneGui(monoBehaviour, fieldInfo);
+                Debug.LogError($"{nameof(LocalPositionHandleAttribute)} should only be used on {nameof(Vector3)} typed fields.");
+                return;
             }
-            Handles.matrix = oldMatrix;
+            
+            var localPosition = (Vector3)fieldInfo.GetValue(monoBehaviour);
+            var transform = monoBehaviour.transform;
+            var position = transform.TransformPoint(localPosition);
+            position = Handles.PositionHandle(position, Quaternion.identity);
+            localPosition = transform.InverseTransformPoint(position);
+            fieldInfo.SetValue(monoBehaviour, localPosition);
+            
+            DrawLabelIfEnabled(position, fieldInfo.Name);
         }
     }
 }
