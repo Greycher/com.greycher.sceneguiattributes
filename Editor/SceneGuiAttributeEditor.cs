@@ -1,6 +1,7 @@
 using System.Reflection;
 using SceneGUIAttributes.Runtime;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace SceneGUIAttributes.Editor
@@ -17,11 +18,11 @@ namespace SceneGUIAttributes.Editor
         private static void DuringSceneGUI(SceneView sceneview)
         {
             var go = Selection.activeGameObject;
-            if (!go)
+            if (!go || !go.scene.isLoaded)
             {
                 return;
             }
-        
+            
             var monoBehaviours = go.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in monoBehaviours)
             {

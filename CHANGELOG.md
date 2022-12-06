@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Local pose handle attribute
 
+- Undo, redo support
+
+- SceneView check
+
+- Enable/Disable tool
+
 ### Changed
 
 - Default display name in unity format
