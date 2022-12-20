@@ -1,9 +1,10 @@
 ﻿using System.Reflection;
+using SceneGUIAttributes.Runtime;
 using UnityEngine;
 
-namespace SceneGUIAttributes.Runtime
+namespace SceneGUIAttributes.Editor
 {
-    public class LocalPoseHandle : PoseHandleAttribute
+    public class LocalPoseHandleAttributeDrawer : GenericPoseHandleAttributeDrawer<LocalPoseHandleAttribute>
     {
         protected override Pose GetPose(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
         {
@@ -16,7 +17,7 @@ namespace SceneGUIAttributes.Runtime
                 rotation = localPose.rotation * tr.rotation
             };
         }
-
+        
         protected override void SetPose(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, Pose pose)
         {
             var tr = monoBehaviour.transform;

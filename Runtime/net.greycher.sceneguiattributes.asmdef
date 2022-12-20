@@ -1,9 +1,7 @@
 {
-    "name": "net.aliakgun.sceneguiattributes.Editor",
+    "name": "net.greycher.sceneguiattributes",
     "rootNamespace": "",
-    "references": [
-        "net.aliakgun.sceneguiattributes"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
