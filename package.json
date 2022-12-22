@@ -1,6 +1,6 @@
 {
-  "name": "net.aliakgun.sceneguiattributes",
-  "version": "0.0.1",
+  "name": "net.greycher.sceneguiattributes",
+  "version": "0.0.2",
   "displayName": "Scene GUI Attr",
   "description": "An extension enables attributes that works during scene gui.",
  "keywords": [
