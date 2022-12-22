@@ -53,6 +53,11 @@ namespace SceneGUIAttributes.Editor
 
         private static void DuringSceneGUI(SceneView sceneView)
         {
+            if (Selection.count > 1)
+            {
+                return;
+            }
+            
             var go = Selection.activeGameObject;
             if (!go || !go.scene.isLoaded)
             {
