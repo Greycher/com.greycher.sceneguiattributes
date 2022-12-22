@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
+### Add
+
+- Enable/Disable tool
+
+### Change
+
+## [0.0.2] - 2022-12-01
+
+### Add
 
 - Pose handle attribute
 
@@ -17,15 +25,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - SceneView check
 
-- Enable/Disable tool
-
-### Changed
+### Change
 
 - Default display name in unity format
 
 ## [0.0.1] - 2022-12-01
 
-### Added
+### Add
 
 - Scene gui attribute
 - Position handle attribute
