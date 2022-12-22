@@ -72,7 +72,7 @@ namespace SceneGUIAttributes.Editor
                 {
                     foreach (var attribute in fieldInfo.GetCustomAttributes(typeof(SceneGUIFieldAttribute)))
                     {
-                        if (attribute is not SceneGUIFieldAttribute sceneGuiAttribute)
+                        if (!(attribute is SceneGUIFieldAttribute sceneGuiAttribute))
                         {
                             continue;
                         }

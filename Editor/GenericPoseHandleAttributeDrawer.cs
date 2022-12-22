@@ -11,13 +11,13 @@ namespace SceneGUIAttributes.Editor
         {
             var pose = GetPose(monoBehaviour, fieldInfo);
         
-            if (Tools.current is Tool.Move or Tool.Transform)
+            if (Tools.current == Tool.Move || Tools.current == Tool.Transform)
             {
                 var rot = Tools.pivotRotation == PivotRotation.Global ? Quaternion.identity : pose.rotation;
                 pose.position = Handles.PositionHandle(pose.position, rot);
             }
         
-            if (Tools.current is Tool.Rotate or Tool.Transform)
+            if (Tools.current == Tool.Rotate || Tools.current == Tool.Transform)
             {
                 if (Tools.pivotRotation == PivotRotation.Global)
                 {
@@ -42,7 +42,7 @@ namespace SceneGUIAttributes.Editor
                 return false;
             }
             
-            return Tools.current is Tool.Move or Tool.Rotate or Tool.Transform;
+            return Tools.current == Tool.Move || Tools.current == Tool.Rotate || Tools.current == Tool.Transform;
         }
         
         protected virtual Pose GetPose(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)

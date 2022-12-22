@@ -23,7 +23,7 @@ namespace SceneGUIAttributes.Editor
                 return false;
             }
             
-            return Tools.current is Tool.Move or Tool.Transform;
+            return Tools.current == Tool.Move || Tools.current == Tool.Transform;
         }
 
         protected virtual Vector3 GetPosition(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
