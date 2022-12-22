@@ -22,7 +22,7 @@ namespace SceneGUIAttributes.Editor
         {
             var radius = (float)fieldInfo.GetValue(monoBehaviour);
             var oldColor = Handles.color;
-            Handles.color = attribute.Color;
+            Handles.color = attribute.GetColor();
             radius = Handles.RadiusHandle(Quaternion.identity, monoBehaviour.transform.position, radius);
             Handles.color = oldColor;
             fieldInfo.SetValue(monoBehaviour, radius);

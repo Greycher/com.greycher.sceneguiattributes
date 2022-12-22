@@ -26,7 +26,7 @@ namespace SceneGUIAttributes.Editor
                 
             var labelSkin = new GUIStyle(GUI.skin.label);
             labelSkin.fontSize = attribute.FontSize;
-            labelSkin.normal.textColor = attribute.TextColor;
+            labelSkin.normal.textColor = attribute.GetColor();
             labelSkin.alignment = TextAnchor.MiddleCenter;
 
             Handles.Label(textPos, attribute.Text, labelSkin);
