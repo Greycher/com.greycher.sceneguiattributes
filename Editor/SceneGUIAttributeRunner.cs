@@ -11,15 +11,22 @@ namespace SceneGUIAttributes.Editor
     public static class SceneGUIAttributeRunner
     {
         private static readonly Dictionary<Type, SceneGUIFieldAttributeDrawer> _drawerMap = new Dictionary<Type, SceneGUIFieldAttributeDrawer>();
+        private static readonly Dictionary<Type, List<FieldInfo>> _fieldCache = new Dictionary<Type, List<FieldInfo>>();
         
         static SceneGUIAttributeRunner()
         {
-            AssemblyReloadEvents.afterAssemblyReload -= MapAttributeToDrawers;
-            AssemblyReloadEvents.afterAssemblyReload += MapAttributeToDrawers;
+            AssemblyReloadEvents.afterAssemblyReload -= AfterAssemblyReload;
+            AssemblyReloadEvents.afterAssemblyReload += AfterAssemblyReload;
             SceneView.duringSceneGui -= DuringSceneGUI;
             SceneView.duringSceneGui += DuringSceneGUI;
         }
 
+        private static void AfterAssemblyReload()
+        {
+            MapAttributeToDrawers();
+            CacheFields();
+        }
+        
         private static void MapAttributeToDrawers()
         {
             _drawerMap.Clear();
@@ -50,6 +57,22 @@ namespace SceneGUIAttributes.Editor
                 _drawerMap.Add(attribute, Activator.CreateInstance(collection[0]) as SceneGUIFieldAttributeDrawer);
             }
         }
+        
+        private static void CacheFields()
+        {
+            _fieldCache.Clear();
+            var collection = TypeCache.GetFieldsWithAttribute<SceneGUIFieldAttribute>();
+            foreach (var info in collection)
+            {
+                if (!_fieldCache.TryGetValue(info.DeclaringType, out List<FieldInfo> list))
+                {
+                    list = new List<FieldInfo>();
+                    _fieldCache.Add(info.DeclaringType, list);
+                }
+                
+                list.Add(info);
+            }
+        }
 
         private static void DuringSceneGUI(SceneView sceneView)
         {
@@ -67,27 +90,31 @@ namespace SceneGUIAttributes.Editor
             var monoBehaviours = go.GetComponents<MonoBehaviour>();
             foreach (var monoBehaviour in monoBehaviours)
             {
-                var fieldInfos = monoBehaviour.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                foreach (var fieldInfo in fieldInfos)
+                if (!_fieldCache.TryGetValue(monoBehaviour.GetType(), out List<FieldInfo> list))
                 {
-                    foreach (var attribute in fieldInfo.GetCustomAttributes(typeof(SceneGUIFieldAttribute)))
-                    {
-                        if (!(attribute is SceneGUIFieldAttribute sceneGuiAttribute))
-                        {
-                            continue;
-                        }
+                    continue;
+                }
 
-                        if (sceneGuiAttribute.ToggleWithGizmos && !sceneView.drawGizmos)
+                foreach (var fieldInfo in list)
+                {
+                    var attributes = fieldInfo.GetCustomAttributes<SceneGUIFieldAttribute>();
+                    foreach (var attribute in attributes)
+                    {
+                        if (_drawerMap.TryGetValue(attribute.GetType(), out SceneGUIFieldAttributeDrawer drawer))
                         {
-                            continue;
-                        }
-                        
-                        if (_drawerMap.TryGetValue(sceneGuiAttribute.GetType(), out SceneGUIFieldAttributeDrawer drawer))
-                        {
-                            drawer.DuringSceneGui(monoBehaviour, fieldInfo, sceneGuiAttribute);
+                            drawer.DuringSceneGui(monoBehaviour, fieldInfo, attribute);
                         }
                     }
                 }
+            }
+        }
+        
+        [MenuItem("Temp/ListFileds")]
+        public static void ListFileds()
+        {
+            foreach (var fieldInfo in TypeCache.GetFieldsWithAttribute<SceneGUIFieldAttribute>())
+            {
+                Debug.Log(fieldInfo.DeclaringType);
             }
         }
     }
