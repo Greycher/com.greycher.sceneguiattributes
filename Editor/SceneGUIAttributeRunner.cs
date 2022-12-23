@@ -100,21 +100,17 @@ namespace SceneGUIAttributes.Editor
                     var attributes = fieldInfo.GetCustomAttributes<SceneGUIFieldAttribute>();
                     foreach (var attribute in attributes)
                     {
+                        if (attribute.ToggleWithGizmos && !sceneView.drawGizmos)
+                        {
+                            continue;
+                        }
+                        
                         if (_drawerMap.TryGetValue(attribute.GetType(), out SceneGUIFieldAttributeDrawer drawer))
                         {
                             drawer.DuringSceneGui(monoBehaviour, fieldInfo, attribute);
                         }
                     }
                 }
-            }
-        }
-        
-        [MenuItem("Temp/ListFileds")]
-        public static void ListFileds()
-        {
-            foreach (var fieldInfo in TypeCache.GetFieldsWithAttribute<SceneGUIFieldAttribute>())
-            {
-                Debug.Log(fieldInfo.DeclaringType);
             }
         }
     }
