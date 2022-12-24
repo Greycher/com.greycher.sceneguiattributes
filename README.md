@@ -2,7 +2,7 @@
 
 A framework for Unity that enables scene GUI functionality over attributes. Scene GUI is drawn for the selected game object similar to the position handle on the Transform component.
 
-![Radius Handle Preview](/Resources~/Radius Handle Attribute Preview.png)
+![Radius Handle Preview](/Resources~/RadiusHandleAttributePreview.png)
 
 Restrictions
 + Only works on fields
