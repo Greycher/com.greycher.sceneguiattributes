@@ -4,6 +4,13 @@ A framework for Unity that enables scene GUI functionality over attributes. Scen
 
 ![Radius Handle Preview](/Resources~/RadiusHandleAttributePreview.png)
 
+Built-in Attributes
++ PositionHandle (UnityEngine.Vector3)
++ LocalPositionHandle (UnityEngine.Vector3)
++ PoseHandle (UnityEngine.Pose)
++ LocalPoseHandle (UnityEngine.Pose)
++ RadiusHandle (float)
+
 Restrictions
 + Only works on fields
 + Only works with single select
