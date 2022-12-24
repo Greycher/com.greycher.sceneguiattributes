@@ -10,7 +10,7 @@ namespace SceneGUIAttributes.Runtime
 
         protected SceneGUIFieldAttribute()
         {
-            ToggleWithGizmos = Settings.Instance.DefaultToggleWithGizmos;
+            ToggleWithGizmos = Settings.DefaultToggleWithGizmos;
         }
     }
 }
