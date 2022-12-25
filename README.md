@@ -13,7 +13,7 @@ Built-in Attributes
 
 Restrictions
 + Only works on fields
-+ Only works with single select
++ Only works when single game object selected
 + Only tested on Unity 2020.3 and 2021.3
 
 ## Installing
