@@ -7,7 +7,8 @@ namespace SceneGUIAttributes.Editor
 {
     public abstract class SceneGUIFieldAttributeWithOptinalLabelDrawer<T> : GenericSceneGUIFieldAttributeDrawer<T> where T : SceneGUIFieldAttributeWithOptinalLabelDrawer
     {
-        protected void DrawLabelIfEnabled(Vector3 position, string fiedlName, SceneGUIFieldAttributeWithOptinalLabelDrawer attribute)
+        protected void DrawLabelIfEnabled(Vector3 position, string fieldName, 
+            SceneGUIFieldAttributeWithOptinalLabelDrawer attribute, string prefix = "", string postfix = "")
         {
             if (!attribute.DrawLabel)
             {
@@ -18,18 +19,18 @@ namespace SceneGUIAttributes.Editor
             var d = (cameraTr.position - position).magnitude;
             var spacing = cameraTr.rotation * attribute.UnitSpacing * d;
             var textPos = position + spacing;
-                
-            if (String.IsNullOrEmpty(attribute.Text))
-            {
-                attribute.Text = ObjectNames.NicifyVariableName(fiedlName);
-            }
-                
+
+            var text = String.IsNullOrEmpty(attribute.Text)
+                ? ObjectNames.NicifyVariableName(fieldName)
+                : attribute.Text;
+            var content = new GUIContent($"{prefix}{text}{postfix}");
+
             var labelSkin = new GUIStyle(GUI.skin.label);
             labelSkin.fontSize = attribute.FontSize;
             labelSkin.normal.textColor = attribute.GetColor();
             labelSkin.alignment = TextAnchor.MiddleCenter;
 
-            Handles.Label(textPos, attribute.Text, labelSkin);
+            Handles.Label(textPos, content, labelSkin);
         }
     }
 }
