@@ -1,6 +1,6 @@
 {
   "name": "net.greycher.sceneguiattributes",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "displayName": "Scene GUI Attr",
   "description": "An extension enables attributes that works during scene gui.",
  "keywords": [

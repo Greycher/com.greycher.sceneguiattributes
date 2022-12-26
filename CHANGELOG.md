@@ -9,9 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Add
 
-- Enable/Disable tool
+- PoseHandle and LocalHandle IList<Pose> support
+
+## [0.0.5] - 2022-12-26
+
+### Add
+
+- Position and LocalPosition IList<Vector3> support
 
 ### Change
+
+- Label centering improved
 
 ## [0.0.2] - 2022-12-01
 
