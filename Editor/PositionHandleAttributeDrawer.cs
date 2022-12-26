@@ -1,4 +1,6 @@
 ﻿using SceneGUIAttributes.Runtime;
+using UnityEditor;
+using UnityEngine;
 
 namespace SceneGUIAttributes.Editor
 {

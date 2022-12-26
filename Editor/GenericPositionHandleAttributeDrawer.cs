@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using SceneGUIAttributes.Runtime;
 using UnityEditor;
 using UnityEngine;
@@ -7,17 +9,9 @@ namespace SceneGUIAttributes.Editor
 {
     public abstract class GenericPositionHandleAttributeDrawer<T> : SceneGUIFieldAttributeWithOptinalLabelDrawer<T> where T : PositionHandleAttribute
     {
-        protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, T attribute)
-        {
-            var position = GetPosition(monoBehaviour, fieldInfo);
-            position = Handles.PositionHandle(position, Quaternion.identity);
-            SetPosition(monoBehaviour, fieldInfo, position);
-            DrawLabelIfEnabled(position, fieldInfo.Name, attribute);
-        }
-
         protected override bool ShouldDraw(FieldInfo fieldInfo)
         {
-            if (fieldInfo.FieldType != typeof(Vector3))
+            if (fieldInfo.FieldType != typeof(Vector3) && !typeof(IList<Vector3>).IsAssignableFrom(fieldInfo.FieldType))
             {
                 Debug.LogError($"{nameof(PositionHandleAttribute)} should only be used on {nameof(Vector3)} typed fields.");
                 return false;
@@ -25,15 +19,27 @@ namespace SceneGUIAttributes.Editor
             
             return Tools.current == Tool.Move || Tools.current == Tool.Transform;
         }
-
-        protected virtual Vector3 GetPosition(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
-        {
-            return (Vector3)fieldInfo.GetValue(monoBehaviour);
-        }
         
-        protected virtual void SetPosition(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, Vector3 position)
+        protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, T attribute)
         {
-            fieldInfo.SetValue(monoBehaviour, position);
+            if (fieldInfo.FieldType == typeof(Vector3))
+            {
+                var pos = (Vector3)fieldInfo.GetValue(monoBehaviour);
+                pos = Handles.PositionHandle(pos, Quaternion.identity);
+                fieldInfo.SetValue(monoBehaviour, pos);
+                
+                DrawLabelIfEnabled(pos, fieldInfo.Name, attribute);
+            }
+            else
+            {
+                var list = (IList<Vector3>)fieldInfo.GetValue(monoBehaviour);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    list[i] = Handles.PositionHandle(list[i], Quaternion.identity);
+                    DrawLabelIfEnabled(list[i], fieldInfo.Name, attribute, "", $" {i}");
+                }
+                fieldInfo.SetValue(monoBehaviour, list);
+            }
         }
     }
 }

@@ -1,19 +1,18 @@
 ﻿using System.Reflection;
 using SceneGUIAttributes.Runtime;
+using UnityEditor;
 using UnityEngine;
 
 namespace SceneGUIAttributes.Editor
 {
     public class LocalPositionHandleAttributeDrawer : GenericPositionHandleAttributeDrawer<LocalPositionHandleAttribute>
     {
-        protected override Vector3 GetPosition(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
+        protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, LocalPositionHandleAttribute attribute)
         {
-            return monoBehaviour.transform.TransformPoint((Vector3)fieldInfo.GetValue(monoBehaviour));
-        }
-        
-        protected override void SetPosition(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, Vector3 position)
-        { 
-            fieldInfo.SetValue(monoBehaviour, monoBehaviour.transform.InverseTransformPoint(position));
+            var oldMatrix = Handles.matrix;
+            Handles.matrix = Matrix4x4.TRS(monoBehaviour.transform.position, Quaternion.identity, Vector3.one);
+            base.InternalDuringSceneGui(monoBehaviour, fieldInfo, attribute);
+            Handles.matrix = oldMatrix;
         }
     }
 }
