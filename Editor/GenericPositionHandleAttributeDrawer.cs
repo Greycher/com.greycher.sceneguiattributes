@@ -13,7 +13,7 @@ namespace SceneGUIAttributes.Editor
         {
             if (fieldInfo.FieldType != typeof(Vector3) && !typeof(IList<Vector3>).IsAssignableFrom(fieldInfo.FieldType))
             {
-                Debug.LogError($"{nameof(PositionHandleAttribute)} should only be used on {nameof(Vector3)} typed fields.");
+                Debug.LogError($"{GetType().Name} should be used on either {nameof(Vector3)} or {nameof(IList<Vector3>)} typed fields.");
                 return false;
             }
             
