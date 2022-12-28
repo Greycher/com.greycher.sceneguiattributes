@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using SceneGUIAttributes.Runtime;
 using UnityEditor;
 using UnityEngine;
@@ -7,13 +8,48 @@ namespace SceneGUIAttributes.Editor
 {
     public class GenericPoseHandleAttributeDrawer<T> : SceneGUIFieldAttributeWithOptinalLabelDrawer<T> where T : PoseHandleAttribute
     {
+        protected override bool ShouldDraw(FieldInfo fieldInfo)
+        {
+            if (fieldInfo.FieldType != typeof(Pose) && !typeof(IList<Pose>).IsAssignableFrom(fieldInfo.FieldType))
+            {
+                Debug.LogError($"{GetType().Name} should be used on either {nameof(Pose)} or {nameof(IList<Pose>)} typed fields.");
+                return false;
+            }
+            
+            return Tools.current == Tool.Move || Tools.current == Tool.Rotate || Tools.current == Tool.Transform;
+        }
+        
         protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, T attribute)
         {
-            var pose = GetPose(monoBehaviour, fieldInfo);
-        
+            if (fieldInfo.FieldType == typeof(Pose))
+            {
+                var pose = (Pose)fieldInfo.GetValue(monoBehaviour);
+                pose = PoseHandle(pose);
+                fieldInfo.SetValue(monoBehaviour, pose);
+                DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute);
+            }
+            else
+            {
+                var list = (IList<Pose>)fieldInfo.GetValue(monoBehaviour);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    var pose = list[i];
+                    pose = PoseHandle(pose);
+                    DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute, "", $" {i}");
+                    list[i] = pose;
+                }
+                fieldInfo.SetValue(monoBehaviour, list);
+            }
+        }
+
+        private Pose PoseHandle(Pose pose)
+        {
+            //ensure rotation correction
+            pose.rotation = pose.rotation.normalized;
+            
             if (Tools.current == Tool.Move || Tools.current == Tool.Transform)
             {
-                var rot = Tools.pivotRotation == PivotRotation.Global ? Quaternion.identity : pose.rotation;
+                var rot = Tools.pivotRotation == PivotRotation.Global ? Quaternion.identity : pose.rotation.normalized;
                 pose.position = Handles.PositionHandle(pose.position, rot);
             }
         
@@ -28,33 +64,8 @@ namespace SceneGUIAttributes.Editor
                     pose.rotation = Handles.RotationHandle(pose.rotation, pose.position);
                 }
             }
-            
-            SetPose(monoBehaviour, fieldInfo, pose);
-            
-            DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute);
-        }
-        
-        protected override bool ShouldDraw(FieldInfo fieldInfo)
-        {
-            if (fieldInfo.FieldType != typeof(Pose))
-            {
-                Debug.LogError($"{nameof(PoseHandleAttribute)} should only be used on {nameof(Pose)} typed fields.");
-                return false;
-            }
-            
-            return Tools.current == Tool.Move || Tools.current == Tool.Rotate || Tools.current == Tool.Transform;
-        }
-        
-        protected virtual Pose GetPose(MonoBehaviour monoBehaviour, FieldInfo fieldInfo)
-        {
-            var pose = (Pose)fieldInfo.GetValue(monoBehaviour);
-            pose.rotation.Normalize();
+
             return pose;
-        }
-        
-        protected virtual void SetPose(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, Pose pose)
-        {
-            fieldInfo.SetValue(monoBehaviour, pose);
         }
     }
 }
