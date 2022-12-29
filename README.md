@@ -7,8 +7,8 @@ A framework for Unity that enables scene GUI functionality over attributes. Scen
 Built-in Attributes
 + PositionHandle (UnityEngine.Vector3, IList<UnityEngine.Vector3>)
 + LocalPositionHandle (UnityEngine.Vector3, IList<UnityEngine.Vector3>)
-+ PoseHandle (UnityEngine.Pose)
-+ LocalPoseHandle (UnityEngine.Pose)
++ PoseHandle (UnityEngine.Pose, IList<UnityEngine.Pose>)
++ LocalPoseHandle (UnityEngine.Pose, IList<UnityEngine.Pose>)
 + RadiusHandle (float)
 
 Restrictions
