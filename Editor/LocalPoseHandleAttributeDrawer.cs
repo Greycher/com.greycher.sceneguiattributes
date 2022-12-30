@@ -10,8 +10,7 @@ namespace SceneGUIAttributes.Editor
         protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, LocalPoseHandleAttribute attribute)
         {
             var oldMatrix = Handles.matrix;
-            var tr = monoBehaviour.transform;
-            Handles.matrix = Matrix4x4.TRS(tr.position, tr.rotation, Vector3.one);
+            Handles.matrix = monoBehaviour.transform.localToWorldMatrix;
             base.InternalDuringSceneGui(monoBehaviour, fieldInfo, attribute);
             Handles.matrix = oldMatrix;
         }
