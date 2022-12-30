@@ -7,7 +7,7 @@ namespace SceneGUIAttributes.Editor
 {
     public abstract class SceneGUIFieldAttributeWithOptinalLabelDrawer<T> : GenericSceneGUIFieldAttributeDrawer<T> where T : SceneGUIFieldAttributeWithOptinalLabelDrawer
     {
-        protected void DrawLabelIfEnabled(Vector3 position, string fieldName, 
+        protected virtual void DrawLabelIfEnabled(Vector3 position, MonoBehaviour monoBehaviour, string fieldName, 
             SceneGUIFieldAttributeWithOptinalLabelDrawer attribute, string prefix = "", string postfix = "")
         {
             if (!attribute.DrawLabel)

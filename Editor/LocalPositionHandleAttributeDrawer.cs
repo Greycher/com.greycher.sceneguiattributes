@@ -12,5 +12,12 @@ namespace SceneGUIAttributes.Editor
             var pos = tr.TransformPoint(localPos);
             return tr.InverseTransformPoint(base.PositionHandle(pos, monoBehaviour));
         }
+
+        protected override void DrawLabelIfEnabled(Vector3 localPos, MonoBehaviour monoBehaviour, string fieldName,
+            SceneGUIFieldAttributeWithOptinalLabelDrawer attribute, string prefix = "", string postfix = "")
+        {
+            var pos = monoBehaviour.transform.TransformPoint(localPos);
+            base.DrawLabelIfEnabled(pos, monoBehaviour, fieldName, attribute, prefix, postfix);
+        }
     }
 }

@@ -26,7 +26,7 @@ namespace SceneGUIAttributes.Editor
                 var pose = (Pose)fieldInfo.GetValue(monoBehaviour);
                 pose = PoseHandle(pose, monoBehaviour);
                 fieldInfo.SetValue(monoBehaviour, pose);
-                DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute);
+                DrawLabelIfEnabled(pose.position, monoBehaviour, fieldInfo.Name, attribute);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace SceneGUIAttributes.Editor
                 {
                     var pose = list[i];
                     pose = PoseHandle(pose, monoBehaviour);
-                    DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute, "", $" {i}");
+                    DrawLabelIfEnabled(pose.position, monoBehaviour, fieldInfo.Name, attribute, "", $" {i}");
                     list[i] = pose;
                 }
                 fieldInfo.SetValue(monoBehaviour, list);

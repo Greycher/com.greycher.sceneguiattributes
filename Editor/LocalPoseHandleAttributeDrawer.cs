@@ -18,5 +18,12 @@ namespace SceneGUIAttributes.Editor
             localPose.rotation = pose.rotation * Quaternion.Inverse(tr.rotation);
             return localPose;
         }
+        
+        protected override void DrawLabelIfEnabled(Vector3 localPos, MonoBehaviour monoBehaviour, string fieldName,
+            SceneGUIFieldAttributeWithOptinalLabelDrawer attribute, string prefix = "", string postfix = "")
+        {
+            var pos = monoBehaviour.transform.TransformPoint(localPos);
+            base.DrawLabelIfEnabled(pos, monoBehaviour, fieldName, attribute, prefix, postfix);
+        }
     }
 }
