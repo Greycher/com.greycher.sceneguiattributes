@@ -7,8 +7,8 @@ A framework for Unity that enables scene GUI functionality over attributes. Scen
 Built-in Attributes
 + PositionHandle (UnityEngine.Vector3, IList<UnityEngine.Vector3>)
 + LocalPositionHandle (UnityEngine.Vector3, IList<UnityEngine.Vector3>)
-+ PoseHandle (UnityEngine.Pose)
-+ LocalPoseHandle (UnityEngine.Pose)
++ PoseHandle (UnityEngine.Pose, IList<UnityEngine.Pose>)
++ LocalPoseHandle (UnityEngine.Pose, IList<UnityEngine.Pose>)
 + RadiusHandle (float)
 
 Restrictions
@@ -18,7 +18,9 @@ Restrictions
 
 ## Installing
 
-This framework is compatible with Unity's package manager. You can add it through the package manager by 'add package from git URL' option. For more information check [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+This framework is compatible with Unity's package manager. You can add it through the package manager by 'add package from git URL' option. For more information check [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html). 
+
+URL: https://github.com/Greycher/com.greycher.sceneguiattributes.git
 
 ## Using
 
