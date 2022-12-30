@@ -18,7 +18,9 @@ Restrictions
 
 ## Installing
 
-This framework is compatible with Unity's package manager. You can add it through the package manager by 'add package from git URL' option. For more information check [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html).
+This framework is compatible with Unity's package manager. You can add it through the package manager by 'add package from git URL' option. For more information check [here](https://docs.unity3d.com/Manual/upm-ui-giturl.html). 
+
+URL: https://github.com/Greycher/com.greycher.sceneguiattributes.git
 
 ## Using
 
