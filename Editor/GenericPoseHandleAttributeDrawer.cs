@@ -24,7 +24,7 @@ namespace SceneGUIAttributes.Editor
             if (fieldInfo.FieldType == typeof(Pose))
             {
                 var pose = (Pose)fieldInfo.GetValue(monoBehaviour);
-                pose = PoseHandle(pose);
+                pose = PoseHandle(pose, monoBehaviour);
                 fieldInfo.SetValue(monoBehaviour, pose);
                 DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute);
             }
@@ -34,7 +34,7 @@ namespace SceneGUIAttributes.Editor
                 for (int i = 0; i < list.Count; i++)
                 {
                     var pose = list[i];
-                    pose = PoseHandle(pose);
+                    pose = PoseHandle(pose, monoBehaviour);
                     DrawLabelIfEnabled(pose.position, fieldInfo.Name, attribute, "", $" {i}");
                     list[i] = pose;
                 }
@@ -42,7 +42,7 @@ namespace SceneGUIAttributes.Editor
             }
         }
 
-        private Pose PoseHandle(Pose pose)
+        protected virtual Pose PoseHandle(Pose pose, MonoBehaviour monoBehaviour)
         {
             //ensure rotation correction
             pose.rotation = pose.rotation.normalized;

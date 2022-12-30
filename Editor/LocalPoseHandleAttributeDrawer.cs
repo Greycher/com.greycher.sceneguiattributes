@@ -1,18 +1,22 @@
-﻿using System.Reflection;
-using SceneGUIAttributes.Runtime;
-using UnityEditor;
+﻿using SceneGUIAttributes.Runtime;
 using UnityEngine;
 
 namespace SceneGUIAttributes.Editor
 {
     public class LocalPoseHandleAttributeDrawer : GenericPoseHandleAttributeDrawer<LocalPoseHandleAttribute>
     {
-        protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, LocalPoseHandleAttribute attribute)
+        protected override Pose PoseHandle(Pose localPose, MonoBehaviour monoBehaviour)
         {
-            var oldMatrix = Handles.matrix;
-            Handles.matrix = monoBehaviour.transform.localToWorldMatrix;
-            base.InternalDuringSceneGui(monoBehaviour, fieldInfo, attribute);
-            Handles.matrix = oldMatrix;
+            var tr = monoBehaviour.transform;
+            var pose = new Pose()
+            {
+                position = tr.TransformPoint(localPose.position),
+                rotation = localPose.rotation * tr.rotation
+            };
+            pose = base.PoseHandle(pose, monoBehaviour);
+            localPose.position = tr.InverseTransformPoint(pose.position);
+            localPose.rotation = pose.rotation * Quaternion.Inverse(tr.rotation);
+            return localPose;
         }
     }
 }

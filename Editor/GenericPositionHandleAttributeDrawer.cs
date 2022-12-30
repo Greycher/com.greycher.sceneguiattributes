@@ -25,7 +25,7 @@ namespace SceneGUIAttributes.Editor
             if (fieldInfo.FieldType == typeof(Vector3))
             {
                 var pos = (Vector3)fieldInfo.GetValue(monoBehaviour);
-                pos = Handles.PositionHandle(pos, Quaternion.identity);
+                pos = PositionHandle(pos, monoBehaviour);
                 fieldInfo.SetValue(monoBehaviour, pos);
                 
                 DrawLabelIfEnabled(pos, fieldInfo.Name, attribute);
@@ -35,11 +35,16 @@ namespace SceneGUIAttributes.Editor
                 var list = (IList<Vector3>)fieldInfo.GetValue(monoBehaviour);
                 for (int i = 0; i < list.Count; i++)
                 {
-                    list[i] = Handles.PositionHandle(list[i], Quaternion.identity);
+                    list[i] = PositionHandle(list[i], monoBehaviour);
                     DrawLabelIfEnabled(list[i], fieldInfo.Name, attribute, "", $" {i}");
                 }
                 fieldInfo.SetValue(monoBehaviour, list);
             }
+        }
+
+        protected virtual Vector3 PositionHandle(Vector3 pos, MonoBehaviour monoBehaviour)
+        {
+            return Handles.PositionHandle(pos, Quaternion.identity);
         }
     }
 }

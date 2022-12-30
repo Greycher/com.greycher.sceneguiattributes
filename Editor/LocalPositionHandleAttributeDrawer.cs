@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using SceneGUIAttributes.Runtime;
+﻿using SceneGUIAttributes.Runtime;
 using UnityEditor;
 using UnityEngine;
 
@@ -7,12 +6,11 @@ namespace SceneGUIAttributes.Editor
 {
     public class LocalPositionHandleAttributeDrawer : GenericPositionHandleAttributeDrawer<LocalPositionHandleAttribute>
     {
-        protected override void InternalDuringSceneGui(MonoBehaviour monoBehaviour, FieldInfo fieldInfo, LocalPositionHandleAttribute attribute)
+        protected override Vector3 PositionHandle(Vector3 localPos, MonoBehaviour monoBehaviour)
         {
-            var oldMatrix = Handles.matrix;
-            Handles.matrix = monoBehaviour.transform.localToWorldMatrix;
-            base.InternalDuringSceneGui(monoBehaviour, fieldInfo, attribute);
-            Handles.matrix = oldMatrix;
+            var tr = monoBehaviour.transform;
+            var pos = tr.TransformPoint(localPos);
+            return tr.InverseTransformPoint(base.PositionHandle(pos, monoBehaviour));
         }
     }
 }
